@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import {
   createPost,
   getRecentPosts,
   type CreatePostInput,
 } from "@/app/db/repositories/PostsRepository";
 
-export async function GET() {
+export async function GET(_req: NextRequest) {
   try {
     const posts = await getRecentPosts(24);
     return NextResponse.json({ posts });
@@ -18,7 +18,7 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as Partial<CreatePostInput>;
     if (!body.title || !body.content) {
